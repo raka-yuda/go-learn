@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -25,6 +26,23 @@ type Person struct {
 
 type Address struct {
 	City, Province, Country string
+}
+
+var (
+	ValidationError = errors.New("Validation Error")
+	NotFoundError   = errors.New("Not Found Error")
+)
+
+func GetById(id string) error {
+	if id == "" {
+		return ValidationError
+	}
+
+	if id != "1001" {
+		return NotFoundError
+	}
+
+	return nil
 }
 
 func main() {
@@ -178,4 +196,17 @@ func main() {
 	address2.City = "Bandung"
 	fmt.Println(address1) // ikut berubah
 	fmt.Println(address2) // berubah menjadi Bandung
+
+	// Custom Error
+	err := GetById("1001")
+	if err != nil {
+		// Used 'Is' function to check which error
+		if errors.Is(err, ValidationError) {
+			fmt.Println(ValidationError.Error())
+		} else if errors.Is(err, NotFoundError) {
+			fmt.Println(NotFoundError.Error())
+		} else {
+			fmt.Println("Unknown Error")
+		}
+	}
 }
