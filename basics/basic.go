@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"regexp"
 )
 
 func myMessage() {
@@ -222,4 +223,10 @@ func main() {
 	} else {
 		fmt.Println(string(decoded))
 	}
+
+	// Regex
+	var regex *regexp.Regexp = regexp.MustCompile(`r([a-z])`)
+	fmt.Println(regex.MatchString("raka"))
+	fmt.Println(regex.MatchString("r4k4"))
+
 }
