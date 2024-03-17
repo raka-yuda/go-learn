@@ -1,10 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"encoding/base64"
+	"encoding/csv"
 	"errors"
 	"fmt"
+	"io"
 	"regexp"
+	"strings"
 )
 
 func myMessage() {
@@ -229,4 +233,32 @@ func main() {
 	fmt.Println(regex.MatchString("raka"))
 	fmt.Println(regex.MatchString("r4k4"))
 
+	// Buffered I/O Read
+	input := strings.NewReader("Hellooo !\nName: Raka\n")
+	reader := bufio.NewReader(input)
+
+	for {
+		line, _, err := reader.ReadLine()
+		if err == io.EOF {
+			break
+		}
+
+		fmt.Println(string(line))
+	}
+
+	// CSV Reader
+	csvString := "raka,akar,aka\n" +
+		"raka,akar,aka\n" +
+		"raka,akar,aka"
+
+	csvReader := csv.NewReader(strings.NewReader(csvString))
+
+	for {
+		record, err := csvReader.Read()
+		if err == io.EOF {
+			break
+		}
+
+		fmt.Println(record)
+	}
 }
